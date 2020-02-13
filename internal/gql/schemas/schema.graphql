@@ -1,0 +1,59 @@
+scalar Time
+# Types
+type User {
+  id: ID!
+  email: String!
+  name: String
+  books:[Book]
+  createdAt: Time!
+  updatedAt: Time
+}
+type Book {
+  id: ID!
+  user: User
+  name: String
+  description: String
+  createdAt: Time!
+}
+
+# Input Types
+input UserInput {
+  id: ID
+  email: String
+  name: String
+}
+input BookInput {
+  id: ID
+  userId: String
+  name: String
+  description: String
+}
+
+type LoginModel {
+  token: String!
+  user: User
+}
+
+# Define mutations here
+type Mutation {
+  loginUser(email: String!, password: String): LoginModel! # CHANGE PASSWORD ', password: String!'
+  createUser(name: String, email: String): User! @isAuthenticated
+  updateUser(id: ID!, name: String, email: String): User! @isAuthenticated
+  deleteUser(id: ID!): User! @isAuthenticated
+  createBook(name: String, description: String, userID: ID): Book! @isAuthenticated
+  updateBook(id: ID!, name: String, description: String, userID: ID): Book! @isAuthenticated
+  deleteBook(id: ID!): Book! @isAuthenticated
+}
+
+# Define queries here
+type Query {
+  users(filter: UserInput, orderBy: orderByTypes, limit: Int): [User!]!
+  books(filter: BookInput, orderBy: orderByTypes, limit: Int): [Book!]!
+}
+enum orderByTypes {
+  createdAt_ASC
+  createdAt_DESC
+  id_DESC
+  id_ASC
+}
+directive @isAuthenticated on FIELD_DEFINITION

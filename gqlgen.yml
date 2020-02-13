@@ -1,0 +1,30 @@
+# go-gql-server gqlgen.yml file
+# Refer to https://gqlgen.com/config/
+# for detailed .gqlgen.yml documentation.
+
+schema:
+  - internal/gql/schemas/schema.graphql
+# Let gqlgen know where to put the generated server
+exec:
+  filename: internal/gql/generated.go
+  package: gql
+# Let gqlgen know where to put the generated models (if any)
+model:
+  filename: internal/gql/models/generated.go
+  package: models
+# Let gqlgen know where to put the generated resolvers
+resolver:
+  filename: internal/gql/resolvers/generated/generated.go
+  type: Resolver
+  package: resolvers
+models:
+  Book:
+    model: github.com/aliereno/go-graphql-server/internal/orm/models.Book
+  User:
+    model: github.com/aliereno/go-graphql-server/internal/orm/models.User
+  UserInput:
+    model: "map[string]interface{}"
+  BookInput:
+    model: "map[string]interface{}"
+
+autobind: []
